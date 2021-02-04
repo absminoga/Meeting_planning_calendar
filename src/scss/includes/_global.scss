@@ -36,3 +36,6 @@ button:focus,
 input:focus {
   outline: transparent;
 }
+section {
+  margin: calc(30px + 3vw);
+}
