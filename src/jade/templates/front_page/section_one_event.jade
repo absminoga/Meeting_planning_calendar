@@ -2,46 +2,48 @@
 section.section_one_event
    .wrapper
       .create_event_field
-         .error_event
+         .error_event.hidden_error
             .error_description
                i.fas.fa-plus-circle
                span.error_event_description Failed to create an event. Time slot is already booked.
             span.error_event_btn &#10006;       
          .event_body
             .added_field
-               .event_name
-                  label(for='name') Name of the event:
-                  input#name(type='text')
-               .event_members
-                  label(for='participants') Participants
-                  select#participants
-                     option(value="Serhij") Serhij
-                     option(value="Marij") Marij
-                     option(value="Petro") Petro
-                     option(value="Ann") Ann
-                     option(value="Oleg") Oleg
-                     option(value="Tamara") Tamara
-               .event_day
-                  label(for='day') Day
-                  select#day
-                     option(value="Mon") Monday
-                     option(value="Tuesday") Tuesday
-                     option(value="Wed") Wednesday
-                     option(value="Thu") Thursday
-                     option(value="Friday") Friday
-               .event_time
-                  label(for='time') Time
-                  select#time
-                     option(value="10") 10:00
-                     option(value="11") 11:00
-                     option(value="12") 12:00
-                     option(value="13") 13:00
-                     option(value="14") 14:00
-                     option(value="15") 15:00
-                     option(value="16") 16:00
-                     option(value="17") 17:00
-                     option(value="18") 18:00
-            .create_btn_field
-               p.event_btn_cancel Cancel
-               p.event_btn_create Create
+               form(action="/calendar.html" method="GET")
+                  .event_name.entry_field
+                     label(for='name') Name of the event:
+                     input#name(type='text')
+                  .event_members.entry_field
+                     label(for='participants') Participants:
+                     select#participants
+                        option(value="serhij, marij, petro, ann, oleg, tamara") All members
+                        option(value="serhij") Serhij
+                        option(value="marij") Marij
+                        option(value="petro") Petro
+                        option(value="ann") Ann
+                        option(value="oleg") Oleg
+                        option(value="tamara") Tamara
+                  .event_day.entry_field
+                     label(for='day') Day:
+                     select#day
+                        option(value="mon") Monday
+                        option(value="tuesday") Tuesday
+                        option(value="wed") Wednesday
+                        option(value="thu") Thursday
+                        option(value="fri") Friday
+                  .event_time.entry_field
+                     label(for='time') Time:
+                     select#time
+                        option(value="10") 10:00
+                        option(value="11") 11:00
+                        option(value="12") 12:00
+                        option(value="13") 13:00
+                        option(value="14") 14:00
+                        option(value="15") 15:00
+                        option(value="16") 16:00
+                        option(value="17") 17:00
+                        option(value="18") 18:00
+                  .create_btn_field
+                     p.event_btn_cancel.event_btn Cancel
+                     input(type="buttom" value="Create").event_btn_create.event_btn 
 
