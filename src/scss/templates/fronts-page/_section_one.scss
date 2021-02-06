@@ -193,7 +193,7 @@
             }
          }
          .hidden_error {
-            left: -2000px;
+            left: -4000px;
          }
          .event_body {
             padding: calc(40px + 1vw) 0;
@@ -221,8 +221,16 @@
                   select,
                   input {
                      position: absolute;
-                     left: 200px;
+                     left: calc(200px + 1.5vw);
                      width: 200px;
+                     padding: 5px;
+                  }
+                  input[type="text"]::placeholder {
+                     color: rgb(23, 3, 153);
+                  }
+                  .invalid_value {
+                     background-color: rgb(204, 120, 120);
+                     border: 1px solid rgb(128, 0, 0);
                   }
                }
             }
@@ -238,6 +246,7 @@
                   border-radius: 10px;
                   background-color: rgba(112, 112, 112, 0.631);
                   max-width: 200px;
+                  text-align: center;
                   cursor: pointer;
                   &:first-child {
                      margin-right: 20px;
