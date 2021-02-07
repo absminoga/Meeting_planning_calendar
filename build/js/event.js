@@ -30,7 +30,7 @@ class createTask {
   }
 
   createLocalStorage() {
-    let localTask; // this.localArray();
+    let localTask;
 
     if (this.eventMemeber.value === "serhij,marij,petro,ann,oleg,tamara") {
       this.index++;
@@ -50,16 +50,30 @@ class createTask {
         dateEvent: this.eventDay.value,
         timeEvent: this.eventTime.value
       };
+    } // ------------------------    Adding Items to Local Storage ------------------------
+
+
+    let localArray = JSON.parse(localStorage.getItem('items'));
+
+    if (localArray === null) {
+      let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+      itemsArray.push(localTask);
+      localStorage.setItem('items', JSON.stringify(itemsArray));
+    } else {
+      for (let i = 0; i < localArray.length; i++) {
+        if (localArray[i]["dateEvent"] == this.eventDay.value && localArray[i]["timeEvent"] == this.eventTime.value) {
+          console.log("Yes");
+          break;
+        } else {
+          let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
+          itemsArray.push(localTask);
+          localStorage.setItem('items', JSON.stringify(itemsArray));
+          console.log("No");
+          break;
+        }
+      }
     }
-
-    console.log(localTask); // ------------------------    Adding Items to Local Storage ------------------------
-
-    let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
-    itemsArray.push(localTask);
-    localStorage.setItem('items', JSON.stringify(itemsArray));
   }
-
-  localArray() {}
 
 }
 
