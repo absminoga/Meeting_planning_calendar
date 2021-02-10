@@ -1,19 +1,29 @@
-class createTask {
-  constructor() {
-    this.eventName = document.querySelector('#name');
-    this.labelName = document.querySelector('.event_name label');
-    this.eventMemeber = document.querySelector('#participants');
-    this.eventDay = document.querySelector('#day');
-    this.eventTime = document.querySelector('#time');
-    this.errorBtn = document.querySelector('.error_event_btn');
-    this.errorBtn = document.querySelector('.error_event_btn');
-    this.eventBtnCancel = document.querySelector('.event_btn_cancel');
-    this.eventBtnCreate = document.querySelector('.event_btn_create');
-    this.index;
+const eventName = document.querySelector('#name');
+const labelName = document.querySelector('.event_name label');
+const eventMemeber = document.querySelector('#participants');
+const eventDay = document.querySelector('#day');
+const eventTime = document.querySelector('#time');
+const errorBtn = document.querySelector('.error_event_btn');
+const eventBtnCancel = document.querySelector('.event_btn_cancel');
+const eventBtnCreate = document.querySelector('.event_btn_create');
+
+class CreateEvent {
+  constructor(eventBtnCreate, eventBtnCancel) {
+    this.eventBtnCancel = eventBtnCancel;
+    this.eventBtnCreate = eventBtnCreate;
 
     this.eventBtnCreate.onclick = () => {
-      this.validateForm();
+      validation.validateForm();
     };
+  }
+
+}
+
+class Validation {
+  constructor(labelName, eventName, errorBtn) {
+    this.eventName = eventName;
+    this.labelName = labelName;
+    this.errorBtn = errorBtn;
   }
 
   validateForm() {
@@ -25,26 +35,32 @@ class createTask {
       this.eventName.removeAttribute("placeholder", "Invalid value");
       this.labelName.removeAttribute("style", "color:red");
       this.eventName.classList.remove('invalid_value');
-      this.createLocalStorage();
+      this.createLocalEvent();
     }
   }
 
-  createLocalStorage() {
+}
+
+class LocalStorage {
+  constructor(eventMemeber, eventName, eventTime, eventDay, errorBtn, eventBtnCancel, eventBtnCreate, labelName) {
+    this.eventName = eventName;
+    this.eventMemeber = eventMemeber;
+    this.eventDay = eventDay;
+    this.eventTime = eventTime;
+  }
+
+  createLocalEvent() {
     let localTask;
 
     if (this.eventMemeber.value === "serhij,marij,petro,ann,oleg,tamara") {
-      this.index++;
       localTask = {
-        count: this.index,
         nameEvent: this.eventName.value,
         memberEvent: this.eventMemeber.value.split(','),
         dateEvent: this.eventDay.value,
         timeEvent: this.eventTime.value
       };
     } else {
-      this.index++;
       localTask = {
-        count: this.index,
         nameEvent: this.eventName.value,
         memberEvent: this.eventMemeber.value,
         dateEvent: this.eventDay.value,
@@ -53,28 +69,29 @@ class createTask {
     } // ------------------------    Adding Items to Local Storage ------------------------
 
 
-    let localArray = JSON.parse(localStorage.getItem('items'));
+    let array = JSON.parse(localStorage.getItem(`events`));
 
-    if (localArray === null) {
-      let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
-      itemsArray.push(localTask);
-      localStorage.setItem('items', JSON.stringify(itemsArray));
+    if (!array) {
+      this.createLocalStorage(localTask);
     } else {
-      for (let i = 0; i < localArray.length; i++) {
-        if (localArray[i]["dateEvent"] == this.eventDay.value && localArray[i]["timeEvent"] == this.eventTime.value) {
-          console.log("Yes");
-          break;
+      array.forEach(task => {
+        if (task.timeEvent === this.eventTime.value && task.dateEvent === this.eventDay.value) {
+          console.log("Existing event");
         } else {
-          let itemsArray = localStorage.getItem('items') ? JSON.parse(localStorage.getItem('items')) : [];
-          itemsArray.push(localTask);
-          localStorage.setItem('items', JSON.stringify(itemsArray));
-          console.log("No");
-          break;
+          console.log("New event");
         }
-      }
+      });
     }
+  }
+
+  createLocalStorage(localTask) {
+    let localEvent = localStorage.getItem(`events`) ? JSON.parse(localStorage.getItem(`events`)) : [];
+    localEvent.push(localTask);
+    localStorage.setItem('events', JSON.stringify(localEvent));
   }
 
 }
 
-let createtask = new createTask();
+let createevent = new CreateEvent(eventBtnCreate, eventBtnCancel);
+let validation = new Validation(labelName, eventName, errorBtn);
+let localstorage = new LocalStorage(eventMemeber, eventName, eventTime, eventDay, errorBtn, eventBtnCancel, eventBtnCreate, labelName);
