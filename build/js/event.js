@@ -1,11 +1,13 @@
-const eventName = document.querySelector('#name');
-const labelName = document.querySelector('.event_name label');
-const eventMemeber = document.querySelector('#participants');
-const eventDay = document.querySelector('#day');
-const eventTime = document.querySelector('#time');
-const errorBtn = document.querySelector('.error_event_btn');
-const eventBtnCancel = document.querySelector('.event_btn_cancel');
-const eventBtnCreate = document.querySelector('.event_btn_create');
+let eventName = document.querySelector('#name');
+let labelName = document.querySelector('.event_name label');
+let eventMemeber = document.querySelector('#participants');
+let eventDay = document.querySelector('#day');
+let eventTime = document.querySelector('#time');
+let eventBtnCancel = document.querySelector('.event_btn_cancel');
+let eventBtnCreate = document.querySelector('.event_btn_create');
+let errorBtn = document.querySelector('.error_event_btn');
+let errorEvent = document.querySelector('.error_event');
+let localTask;
 
 class CreateEvent {
   constructor(eventBtnCreate, eventBtnCancel) {
@@ -15,15 +17,24 @@ class CreateEvent {
     this.eventBtnCreate.onclick = () => {
       validation.validateForm();
     };
+
+    this.eventBtnCancel.onclick = () => {
+      validation.removeError();
+      document.location.href = "/index.html";
+    };
   }
 
 }
 
 class Validation {
-  constructor(labelName, eventName, errorBtn) {
+  constructor(labelName, eventName, errorBtn, errorEvent, eventBtnCreate) {
     this.eventName = eventName;
     this.labelName = labelName;
     this.errorBtn = errorBtn;
+    this.errovEvent = errorEvent;
+    this.eventBtnCreate = eventBtnCreate;
+
+    this.errorBtn.onclick = () => this.removeError();
   }
 
   validateForm() {
@@ -35,14 +46,23 @@ class Validation {
       this.eventName.removeAttribute("placeholder", "Invalid value");
       this.labelName.removeAttribute("style", "color:red");
       this.eventName.classList.remove('invalid_value');
-      this.createLocalEvent();
+      localstorage.createLocalEvent();
     }
+  }
+
+  failedEvent() {
+    this.errovEvent.classList.remove('hidden_error');
+    return;
+  }
+
+  removeError() {
+    this.errovEvent.classList.add('hidden_error');
   }
 
 }
 
 class LocalStorage {
-  constructor(eventMemeber, eventName, eventTime, eventDay, errorBtn, eventBtnCancel, eventBtnCreate, labelName) {
+  constructor(eventMemeber, eventName, eventTime, eventDay) {
     this.eventName = eventName;
     this.eventMemeber = eventMemeber;
     this.eventDay = eventDay;
@@ -50,8 +70,6 @@ class LocalStorage {
   }
 
   createLocalEvent() {
-    let localTask;
-
     if (this.eventMemeber.value === "serhij,marij,petro,ann,oleg,tamara") {
       localTask = {
         nameEvent: this.eventName.value,
@@ -75,10 +93,16 @@ class LocalStorage {
       this.createLocalStorage(localTask);
     } else {
       array.forEach(task => {
-        if (task.timeEvent === this.eventTime.value && task.dateEvent === this.eventDay.value) {
-          console.log("Existing event");
+        if (task.dateEvent === this.eventDay.value && task.timeEvent === this.eventTime.value) {
+          console.log("Failed event");
+          console.log(`task.timeEvent: ${task.timeEvent}`);
+          console.log(`this.eventTime.value ${this.eventTime.value}`);
+          validation.failedEvent();
         } else {
-          console.log("New event");
+          console.log("Add event");
+          console.log(`task.timeEvent: ${task.timeEvent}`);
+          console.log(`this.eventTime.value ${this.eventTime.value}`);
+          this.createLocalStorage(localTask);
         }
       });
     }
@@ -93,5 +117,5 @@ class LocalStorage {
 }
 
 let createevent = new CreateEvent(eventBtnCreate, eventBtnCancel);
-let validation = new Validation(labelName, eventName, errorBtn);
-let localstorage = new LocalStorage(eventMemeber, eventName, eventTime, eventDay, errorBtn, eventBtnCancel, eventBtnCreate, labelName);
+let validation = new Validation(labelName, eventName, errorBtn, errorEvent, eventBtnCancel);
+let localstorage = new LocalStorage(eventMemeber, eventName, eventTime, eventDay);
