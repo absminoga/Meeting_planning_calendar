@@ -37,5 +37,5 @@ input:focus {
   outline: transparent;
 }
 section {
-  margin: calc(30px + 3vw);
+  @include adaptiv-value("margin", 100, 15, 0);
 }

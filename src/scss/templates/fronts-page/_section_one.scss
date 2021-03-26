@@ -29,11 +29,11 @@
       flex-wrap: nowrap;
       font: {
          font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-         size: calc(16px + 0.5vw);
       }
+
       .title_calendar {
          flex: 1 1 50%;
-         font-size: calc(20px + 1vw);
+         @include adaptiv-value("font-size", 40, 25, 1);
          font-weight: bold;
       }
       .input_fields {
