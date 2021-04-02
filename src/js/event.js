@@ -1,9 +1,49 @@
 class ModelEvent {
-   constructor() { }
+   constructor() {
+      this.events = [
+         { id: 1, nameEvent: "lectures", memberEvent: "serhij", dateEvent: "tue", timeEvent: "10" },
+         { id: 2, nameEvent: "meet", memberEvent: ["serhij", "marij", "petro", "ann", "oleg", "tamara"], dateEvent: "wed", timeEvent: "12" },
+      ]
+      this.errorEvent = document.querySelector('.error_event')
+   }
+
+   addEvent(text, member, date, time) {
+      const event = {
+         id: this.events.length > 0 ? this.events[this.events.length - 1].id + 1 : 1,
+         nameEvent: text,
+         memberEvent: member,
+         dateEvent: date,
+         timeEvent: time,
+      }
+      this.events.push(event)
+      console.log(this.events);
+   }
+
+   checkArrayEvent(eventText, memberText, dateText, timeText) {
+      this.events.length > 0 ? this.checkEvent(eventText, memberText, dateText, timeText) : this.addEvent(eventText, memberText, dateText, timeText)
+   }
+
+   addError() {
+      this.errorEvent.classList.remove("hidden_error");
+   }
+
+   checkEvent(text, member, date, time) {
+      let array = [];
+      this.events.forEach((elem) => {
+         (date === elem.dateEvent && time === elem.timeEvent) ? array.push(1) : array.push(0);
+      });
+      (array.some((elem) => elem == 1)) ? this.addError() : this.addEvent(text, member, date, time);
+   }
+
 }
 
 class ViewEvent {
-   constructor() { }
+   constructor() {
+
+   }
+
+
+
 }
 
 class ControllerEvent {
@@ -11,9 +51,18 @@ class ControllerEvent {
       this.model = model
       this.view = view
    }
+
+
 }
 
 const event = new ControllerEvent(new ModelEvent(), new ViewEvent());
+
+// event.model.checkArrayEvent("lectures", "serhij", "tue", "10");
+event.model.checkEvent("lectures", "serhij", "fri", "12");
+
+
+
+
 // let eventName = document.querySelector('#name');
 // let labelName = document.querySelector('.event_name label');
 // let eventMemeber = document.querySelector('#participants');
