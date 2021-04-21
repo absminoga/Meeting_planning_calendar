@@ -157,7 +157,7 @@
       align-items: center;
       justify-content: flex-start;
       flex-wrap: wrap;
-      min-width: 686px;
+      min-width: 290px;
       .create_event_field {
          position: relative;
          width: 100%;
@@ -200,16 +200,17 @@
             width: 100%;
             display: flex;
             flex-direction: row;
-            justify-content: start;
+            justify-content: flex-start;
             align-items: flex-start;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             font: {
                size: calc(14px + 0.5vw);
                font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
             }
             .added_field {
-               flex: 1 1 50%;
-               padding-right: 30px;
+               width: 100%;
+               max-width: 600px;
+               margin-bottom: 30px;
                .entry_field {
                   position: relative;
                   display: flex;
@@ -220,10 +221,11 @@
                   }
                   select,
                   input {
-                     position: absolute;
-                     left: calc(200px + 1.5vw);
-                     width: 200px;
+                     // position: absolute;
+                     // left: calc(200px + 1.5vw);
+                     width: 150px;
                      padding: 5px;
+                     font-size: calc(10px + 0.5vw);
                   }
                   input[type="text"]::placeholder {
                      color: rgb(23, 3, 153);
@@ -235,17 +237,17 @@
                }
             }
             .create_btn_field {
-               flex: 1 1 50%;
+               width: 100%;
                display: flex;
                flex-direction: row;
                align-self: flex-end;
-               justify-content: center;
+               justify-content: flex-start;
                .event_btn {
-                  padding: calc(10px + 0.5vw) calc(50px + 1vw);
+                  padding: 10px 30px;
                   border: 1px solid $black;
-                  border-radius: 10px;
+                  border-radius: 20px;
                   background-color: rgba(112, 112, 112, 0.631);
-                  max-width: 250px;
+                  width: 140px;
                   text-align: center;
                   cursor: pointer;
                   &:first-child {
